@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js/vue.min.js"></script>
+  <script defer src="js/main.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <title>Document</title>
+</head>
+<body>
+<div id="app">
+<div class="AppContainer">
+<!--  <button @click="aquarium.addFish()">Добавить рыбку</button>-->
+<!--  <button @click="add">Добавить рыбку  vue</button>-->
+<!--  <button @click="clear">Поймать всех vue рыбок</button>-->
+<!--  <button @click="aquarium.fishes[0].swimTo()">Плыви рыбка</button>-->
+  <div class="GamePanel Panel">
+    <div class="PlayerData Panel">
+      <label for="player">Имя рыбака
+        <input id="player" class="GameInput" :class="{'Error': !playerDataIsValid}" v-model="player" type="text">
+        <span v-if="!playerDataIsValid">Рыбак, назови себя!</span>
+      </label>
+    </div>
+    <div v-if="currentGameSession" class="GameData Panel">
+      <div>Время: {{ gameTimer }}</div>
+      <div>Очки: {{ currentGameSession.scores }}</div>
+    </div>
+    <div class="ButtonPanel Panel">
+      <button class="Btn Btn--start" :disabled="active" @click="startGame">{{ IGame.start }}</button>
+      <button class="Btn" :disabled="!active" @click="stopGame">Закончить игру</button>
+    </div>
+    <!--  <button @click="tick">Tissionc!</button>-->
+
+  </div>
+  <ul class="Aquarium" :style="styleObject" class="Flow">
+    <li is="fish"
+        @fish-caught="eatFish"
+        @click="eat"
+        v-for="fish in aquarium.fishes"
+        :key="fish.id"
+        :fish="fish">
+    </li>
+  </ul>
+  <div v-if="stopped && currentGameSession" class="GameStat Slide">
+    <ul class="GameStat__headers">
+      <li>Место</li>
+      <li>Игрок</li>
+      <li>Очки</li>
+      <li>Улов</li>
+    </ul>
+    <ul class="GameStat__list">
+      <li is="game-stat-item"
+          v-for="(game, idx) in gameSessions"
+          :game="game"
+          :place="idx"
+          class="GameStat__item"
+          :class="{'CurrentStat': game===currentGameSession}">{{ idx }}
+      </li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
